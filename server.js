@@ -7,6 +7,7 @@ const expressLayouts = require("express-ejs-layouts");
 const app = express();
 
 const indexRouter = require("./routes/index");
+const coffeeRouter = require("./routes/coffees");
 
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
@@ -32,6 +33,7 @@ db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => console.log("Connected to MongoDB"));
 
 app.use("/", indexRouter);
+app.use("/coffees", coffeeRouter);
 
 app.listen(process.env.PORT || 3000, "0.0.0.0", () => {
   console.log("Server started on port 3000");
