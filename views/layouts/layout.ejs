@@ -7,6 +7,9 @@
     <title>Café Central</title>
   </head>
   <body>
-    <%- include("../partials/header.ejs")%> <%- body %>
+    <%- include("../partials/header.ejs")%>
+    <%= locals.errorMessage %>
+    <br>
+    <%- body %>
   </body>
 </html>

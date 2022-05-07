@@ -1,0 +1,10 @@
+const mongoose = require("mongoose");
+
+const coffeeSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+});
+
+module.exports = mongoose.model("Coffee", coffeeSchema);
