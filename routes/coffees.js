@@ -3,29 +3,35 @@ const { render } = require("express/lib/response");
 const router = express.Router();
 const Coffee = require("../models/coffee");
 
-router.get("/", (req, res) => {
-  res.render("coffees/index");
+//All coffees route
+router.get("/", async (req, res) => {
+  try {
+    const coffees = await Coffee.find();
+    res.render("coffees/index", { coffees: coffees });
+  } catch (error) {
+    res.redirect("/");
+  }
 });
 
+// New coffee route
 router.get("/new", (req, res) => {
   res.render("coffees/new", { coffee: new Coffee() });
 });
 
-router.post("/", (req, res) => {
+// Create coffee route
+router.post("/", async (req, res) => {
   const coffee = new Coffee({
     name: req.body.name,
   });
-  coffee.save((err, newCoffee) => {
-    if (err) {
-      res.render("coffees/new", {
-        coffee: coffee,
-        errorMessage: "Error creating coffee",
-      });
-    } else {
-      // res.redirect(`coffees/${newCoffee.id}`);
-      res.redirect("coffees");
-    }
-  });
+  try {
+    const newCoffee = await coffee.save();
+    //res.redirect(`coffees/${newCoffee.id}`);
+    res.redirect("coffees");
+  } catch (error) {
+    res.render("coffees/new", {
+      coffee: coffee,
+      errorMessage: "Error creating coffee",
+    });
+  }
 });
-
 module.exports = router;
